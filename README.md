@@ -277,26 +277,11 @@ def generate_report(logits, chip_latency_ms: float, chip_mem_mb: float, p50_us: 
         print("Failed to generate report: Inference results are empty")
         return
     
-    # 计算分类结果和置信度（适用于分类任务，可根据你的任务调整）
-    pred = np.argmax(logits[0])
-    # Softmax 归一化计算置信度（防止数值溢出）
-    probs = np.exp(logits[0] - np.max(logits[0]))
-    probs /= probs.sum()
-    confidence = np.max(probs)
-    
-    print("\n" + "=" * 65)
     print(f"             Qualcomm AI Hub 模型性能报告（Target Device: {target_device}）")
     print("=" * 65)
     print(f"【芯片侧硬件真实表现 (云端测量)】:")
     print(f" -> 纯硬件推理执行延迟: {chip_latency_ms:.4f} ms ({p50_us} us)")
     print(f" -> 芯片 NPU 峰值内存占用: {chip_mem_mb:.2f} MB")
-    print(f" -> 硬件加速状态: 100% NPU 加速 (全算子映射)")
-    print("-" * 65)
-    print(f"【推理检测结果分析】:")
-    print(f" -> 分类判断: {'【类别 1】' if pred == 1 else '【类别 0】'}（可根据你的任务修改类别含义）")
-    print(f" -> 检测置信度: {confidence:.2%}")
-    print("=" * 65)
-
 # ======================
 # 下载最终可部署的 DLC 模型
 # ======================
