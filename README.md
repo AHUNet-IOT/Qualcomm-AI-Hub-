@@ -341,9 +341,18 @@ if __name__ == "__main__":
 python qai_hub_deploy.py
 ```
 
+## 6.性能分析
+模型在目标芯片上编译完成后，Qualcomm AI Hub 官网会生成包含关键指标的性能分析报告。
+- 推理延迟 (Inference Time)
+- 内存占用 (Memory Usage)
+- 计算单元 (Compute Units)
+
+<img width="1278" height="529" alt="image" src="https://github.com/user-attachments/assets/5ffa0841-515a-4aad-955e-b12a67c7c7cf" />
+
+
 ---
 
-## 6. 执行流程说明
+## 7. 执行流程说明
 
 1. 禁用本地 CUDA，避免环境干扰
 
@@ -361,7 +370,7 @@ python qai_hub_deploy.py
 
 ---
 
-## 7. 输出文件说明
+## 8. 输出文件说明
 
 |文件/目录|用途|
 |---|---|
@@ -372,9 +381,9 @@ python qai_hub_deploy.py
 |`traced_model.pt`|通过 torch.jit.trace 保存的 TorchScript 模型（需自行生成）|
 ---
 
-## 8. 常见问题
+## 9. 常见问题
 
-### 8.1 连接超时 / 无法访问 Qualcomm AI Hub
+### 9.1 连接超时 / 无法访问 Qualcomm AI Hub
 
 - 代理端口错误：核对代理工具的端口（Clash=7890，V2Ray=10809），修改 `setup_proxy` 函数中的端口号
 
@@ -382,7 +391,7 @@ python qai_hub_deploy.py
 
 - API Key 配置错误：重新生成 API Key，确保无多余空格、换行
 
-### 8.2 模型编译失败
+### 9.2 模型编译失败
 
 - 模型格式错误：未通过 `torch.jit.trace` 保存，重新执行模型保存代码
 
@@ -392,7 +401,7 @@ python qai_hub_deploy.py
 
 - 模型损坏：重新导出 TorchScript 模型，确保模型处于 eval 模式
 
-### 8.3 性能分析 / 推理失败
+### 9.3 性能分析 / 推理失败
 
 - 输出目录权限不足：确保本地目录可读写，避免权限报错
 
@@ -400,26 +409,17 @@ python qai_hub_deploy.py
 
 - os 版本不匹配：根据官网芯片要求，调整 `hub.Device` 中的 os 参数（默认 os="14"）
 
-### 8.4 模型下载失败
+### 9.4 模型下载失败
 
 - 网络不稳定：重新运行脚本，单独执行 `download_deployable_model` 函数
 
 - 权限不足：修改 DLC 模型保存路径，确保目录可读写
 
 ---
+## 10. 联系作者
+- 如果你在使用本教程、运行脚本或配置 Qualcomm AI Hub 部署过程中遇到任何问题、需要协助或有建议，都可以直接联系我：
+- 邮箱：ahufcy123@163.com
+- 欢迎发送邮件交流技术问题、部署报错、模型适配方案，我会尽快回复。
 
-## 9. 注意事项
-
-- 教程中 SA8295P ADP 芯片、38维输入仅为示例，可根据自身需求替换为任意高通芯片（从官网获取）和输入维度
-
-- 模型必须通过 `torch.jit.trace` 保存为 TorchScript 格式（.pt），否则会导致云端编译失败
-
-- 国内用户必须配置代理，否则无法访问 Qualcomm AI Hub 云端服务
-
-- 官网设备列表会随版本更新，需及时关注官网最新设备名称，避免因名称变更导致操作失败
-
-- 脚本中「可修改参数」部分需根据自身需求调整，其余代码无需修改即可复用
-
-- 免费版 Qualcomm AI Hub 额度可满足开发测试，无需付费即可完成所有操作
 
 ---
