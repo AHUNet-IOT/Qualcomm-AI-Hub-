@@ -197,7 +197,7 @@ def profile_model(model, target_device: str):
 # Cloud Inference
 # ======================
 def run_inference(model, input_shape: tuple):
-   #读取真实的数据集
+   #Read the real dataset
     input_array = np.load("EDGE_1000.npz")["data"][0:1].reshape(1, 1, 24).astype(np.float32)  
     print(f"Using real data, shape: {input_array.shape}")
     
