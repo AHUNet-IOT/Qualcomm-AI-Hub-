@@ -9,7 +9,7 @@
 Qualcomm AI Hub end-to-end model deployment tutorial: Supports cloud compilation for any PyTorch model, processor performance analysis, cloud inference verification, and exports directly deployable DLC models. Includes complete environment setup, model saving (torch.jit.trace), proxy configuration, common issue solutions, and reusable scripts. Works with various chips and input dimensions; beginners can get started with one click.
 
 > Suitable for cloud compilation, processor performance testing, inference validation of any PyTorch model, and exporting DLC models deployable to various Qualcomm chips.
-> Note: This tutorial uses SA8295P ADP chip and 38-dimensional input as examples; you can replace them with any chip and input dimension as needed.(38-dimensional input: The feature dimension of one dataset sample is 38, meaning each input contains 38 feature values.)
+> Note: This tutorial uses SA8295P ADP chip and 24-dimensional input as examples; you can replace them with any chip and input dimension as needed.(24-dimensional input: The feature dimension of one dataset sample is 24, meaning each input contains 38 feature values.)
 
 ---
 
@@ -142,7 +142,7 @@ def load_and_compile_model(model_path: str, target_device: str, input_shape: tup
     Universal model compilation function
     :param model_path: Local TorchScript model path (.pt)
     :param target_device: Target Qualcomm chip (e.g., "SA8295P ADP", obtained from official website)
-    :param input_shape: Model input shape (e.g., (1,1,38), replace with your dimensions)
+    :param input_shape: Model input shape (e.g., (1,1,24), replace with your dimensions)
     :return: Compiled target model
     """
     if not os.path.exists(model_path):
@@ -197,10 +197,8 @@ def profile_model(model, target_device: str):
 # Cloud Inference
 # ======================
 def run_inference(model, input_shape: tuple):
-   
-    X = np.load("label_know_data.npz")["x"] # Load real data
-    X = X.reshape((X.shape[0], 1, X.shape[1]))  
-    input_array = X[0:1].astype(np.float32)      
+   #读取真实的数据集
+    input_array = np.load("EDGE_1000.npz")["data"][0:1].reshape(1, 1, 24).astype(np.float32)  
     print(f"Using real data, shape: {input_array.shape}")
     
     print(f"Generated input data, shape: {input_array.shape}")
