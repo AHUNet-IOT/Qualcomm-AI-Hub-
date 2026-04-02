@@ -9,7 +9,7 @@
 Qualcomm AI Hub end-to-end model deployment tutorial: Supports cloud compilation for any PyTorch model, processor performance analysis, cloud inference verification, and exports directly deployable DLC models. Includes complete environment setup, model saving (torch.jit.trace), proxy configuration, common issue solutions, and reusable scripts. Works with various chips and input dimensions; beginners can get started with one click.
 
 > Suitable for cloud compilation, processor performance testing, inference validation of any PyTorch model, and exporting DLC models deployable to various Qualcomm chips.
-> Note: This tutorial uses SA8295P ADP chip and 24-dimensional input as examples; you can replace them with any chip and input dimension as needed.(24-dimensional input: The feature dimension of one dataset sample is 24, meaning each input contains 38 feature values.)
+> Note: This tutorial uses SA8295P ADP chip and 24-dimensional input as examples; you can replace them with any chip and input dimension as needed.(24-dimensional input: The feature dimension of one dataset sample is 24, meaning each input contains 24 feature values.)
 
 ---
 
@@ -207,7 +207,7 @@ def run_inference(model, input_shape: tuple):
         print("Running inference...")
         inference_job = hub.submit_inference_job(
             model=model,
-            device=model.device,  # Auto-match compiled target chip
+            device=hub.Device(target_device, os="14"),  # Auto-match compiled target chip
             inputs=dict(image=[input_array]),
         )
         
@@ -276,7 +276,7 @@ if __name__ == "__main__":
     # --------------------------
     model_path = "SEResnet_model_traced_model.pt"  # Replace with your TorchScript model path
     target_device = "SA8295P ADP"  # Replace with target chip name from official website
-    input_shape = (1, 1, 38)       # Replace with your model input shape (example: 38-dim input)
+    input_shape = (1, 1, 24)       # Replace with your model input shape (example: 24-dim input)
     
     # Run main pipeline
     target_model = load_and_compile_model(model_path, target_device, input_shape)
