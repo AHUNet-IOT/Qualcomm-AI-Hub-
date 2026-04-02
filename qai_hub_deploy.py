@@ -91,14 +91,14 @@ def profile_model(model, target_device: str):
 # ======================
 def run_inference(model, input_shape: tuple):
     # 生成与实际输入规格一致的模拟输入（替换为你的输入维度）
-    input_array = np.random.rand(*input_shape).astype(np.float32)
+    input_array = np.load("EDGE_1000.npz")["data"][0:1].reshape(1, 1, 24).astype(np.float32)
     print(f"Generated input data, shape: {input_array.shape}")
     
     try:
         print("Running inference...")
         inference_job = hub.submit_inference_job(
             model=model,
-            device=model.device,  # 自动适配编译时的目标芯片
+            device=hub.Device(target_device, os="14"), # 自动适配编译时的目标芯片
             inputs=dict(image=[input_array]),
         )
         
@@ -171,7 +171,7 @@ if __name__ == "__main__":
     # --------------------------
     model_path = "SEResnet_model_traced_model.pt"  # 替换为你的 TorchScript 模型路径
     target_device = "SA8295P ADP"  # 替换为官网获取的目标芯片名称
-    input_shape = (1, 1, 38)       # 替换为你的模型输入形状（示例：38维输入）
+    input_shape = (1, 1, 24)       # 替换为你的模型输入形状（示例：38维输入）
     
     # 执行主流程
     target_model = load_and_compile_model(model_path, target_device, input_shape)
