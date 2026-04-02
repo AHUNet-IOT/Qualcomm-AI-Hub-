@@ -382,4 +382,3 @@ After the model is compiled on the target chip, the Qualcomm AI Hub official web
 - Email: [ahufcy123@163.com](mailto:ahufcy123@163.com)
 
 - Welcome to contact for technical issues, deployment errors, model adaptation solutions
-> （注：文档部分内容可能由 AI 生成）
