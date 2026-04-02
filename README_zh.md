@@ -310,7 +310,7 @@ if __name__ == "__main__":
     # --------------------------
     model_path = "SEResnet_model_traced_model.pt"  # 替换为你的 TorchScript 模型路径
     target_device = "SA8295P ADP"  # 替换为官网获取的目标芯片名称
-    input_shape = (1, 1, 38)       # 替换为你的模型输入形状（示例：38维输入）
+    input_shape = (1, 1, 24)       # 替换为你的模型输入形状（示例：24维输入）
     
     # 执行主流程
     target_model = load_and_compile_model(model_path, target_device, input_shape)
